@@ -1,11 +1,11 @@
 package com.humanize.imageserver.exception;
 
-public class ImageNotFoundException extends RuntimeException {
-	
+public class WrongHostedFilePathException extends RuntimeException {
+
 	private int errorCode;
 	private String errorMsg;
 	
-	public ImageNotFoundException(int errorCode, String errorMsg) {
+	public WrongHostedFilePathException(int errorCode, String errorMsg) {
 		this.errorCode = errorCode;
 		this.errorMsg = errorMsg;
 	}

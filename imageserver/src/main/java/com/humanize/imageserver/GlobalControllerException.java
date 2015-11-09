@@ -3,30 +3,36 @@ package com.humanize.imageserver;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.humanize.imageserver.exception.ImageNotFoundException;
-import com.humanize.imageserver.exception.NullHostedFileIdException;
+import com.humanize.imageserver.exception.NullHostedFileNameException;
 import com.humanize.imageserver.exception.NullHostedFilePathException;
+import com.humanize.imageserver.exception.Exception;
 
 @ControllerAdvice
-class GlobalControllerExceptionHandler {
+class GlobalControllerException {
 	
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(ImageNotFoundException.class)
-    public void handleImageNotFoundException() {
+    @ResponseBody
+    public Exception handleImageNotFoundException(ImageNotFoundException e) {
+    	return new Exception(e.getErrorCode(), e.getErrorMsg());
+        
+    }
+    
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NullHostedFileNameException.class)
+    public void handleNullHostedFileNameException() {
         // Nothing to do
     }
     
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(NullHostedFileIdException.class)
-    public void handleNullHostedFileIdException() {
-        // Nothing to do
-    }
-    
-    @ResponseStatus(HttpStatus.BAD_REQUEST)  // 409
     @ExceptionHandler(NullHostedFilePathException.class)
     public void handleNullHostedFilePathException() {
         // Nothing to do
     }
+    
+    
 }

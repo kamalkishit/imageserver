@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 import com.humanize.imageserver.data.HostedFile;
 import com.humanize.imageserver.exception.ImageNotFoundException;
 import com.humanize.imageserver.exception.NullHostedFileException;
-import com.humanize.imageserver.exception.NullHostedFileIdException;
+import com.humanize.imageserver.exception.NullHostedFileNameException;
 import com.humanize.imageserver.exception.NullHostedFilePathException;
 
 @Service
@@ -52,7 +52,7 @@ public class HostedFileService {
 			throws Exception {
 		
 		if (hostedFileId == null) {
-			throw new NullHostedFileIdException();
+			throw new NullHostedFileNameException();
 		}
 		
 		if (hostedFilePath == null) {

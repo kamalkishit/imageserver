@@ -1,11 +1,11 @@
 package com.humanize.imageserver.exception;
 
-public class ImageNotFoundException extends RuntimeException {
-	
+public class Exception {
+
 	private int errorCode;
 	private String errorMsg;
 	
-	public ImageNotFoundException(int errorCode, String errorMsg) {
+	public Exception(int errorCode, String errorMsg) {
 		this.errorCode = errorCode;
 		this.errorMsg = errorMsg;
 	}
