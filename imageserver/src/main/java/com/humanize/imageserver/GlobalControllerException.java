@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.humanize.imageserver.exception.ImageNotFoundException;
 import com.humanize.imageserver.exception.NullHostedFileNameException;
-import com.humanize.imageserver.exception.NullHostedFilePathException;
+import com.humanize.imageserver.exception.NullImagePathException;
 import com.humanize.imageserver.exception.Exception;
 
 @ControllerAdvice
@@ -29,7 +29,7 @@ class GlobalControllerException {
     }
     
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(NullHostedFilePathException.class)
+    @ExceptionHandler(NullImagePathException.class)
     public void handleNullHostedFilePathException() {
         // Nothing to do
     }

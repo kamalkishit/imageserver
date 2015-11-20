@@ -1,11 +1,12 @@
 package com.humanize.imageserver.exception;
 
-public class WrongHostedFilePathException extends RuntimeException {
-
+public class NullImageException extends RuntimeException {
+	
 	private int errorCode;
 	private String errorMsg;
+	int a;
 	
-	public WrongHostedFilePathException(int errorCode, String errorMsg) {
+	public NullImageException(int errorCode, String errorMsg) {
 		this.errorCode = errorCode;
 		this.errorMsg = errorMsg;
 	}
@@ -25,4 +26,5 @@ public class WrongHostedFilePathException extends RuntimeException {
 	public void setErrorMsg(String errorMsg) {
 		this.errorMsg = errorMsg;
 	}
+
 }

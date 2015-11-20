@@ -2,12 +2,12 @@ package com.humanize.imageserver.exception;
 
 import java.lang.Exception;
 
-public class ImageNotFoundException extends Exception {
+public class AmazonS3ImageNotFoundException extends Exception {
 	
 	private int errorCode;
 	private String errorMsg;
 	
-	public ImageNotFoundException(int errorCode, String errorMsg) {
+	public AmazonS3ImageNotFoundException(int errorCode, String errorMsg) {
 		this.errorCode = errorCode;
 		this.errorMsg = errorMsg;
 	}

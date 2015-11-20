@@ -1,11 +1,11 @@
 package com.humanize.imageserver.exception;
 
-public class NullHostedFileException extends RuntimeException {
-	
+public class NullImagePathException extends RuntimeException {
+
 	private int errorCode;
 	private String errorMsg;
 	
-	public NullHostedFileException(int errorCode, String errorMsg) {
+	public NullImagePathException(int errorCode, String errorMsg) {
 		this.errorCode = errorCode;
 		this.errorMsg = errorMsg;
 	}
@@ -25,5 +25,4 @@ public class NullHostedFileException extends RuntimeException {
 	public void setErrorMsg(String errorMsg) {
 		this.errorMsg = errorMsg;
 	}
-
 }

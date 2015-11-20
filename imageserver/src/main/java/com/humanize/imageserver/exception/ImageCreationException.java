@@ -1,11 +1,13 @@
 package com.humanize.imageserver.exception;
 
-public class NullHostedFilePathException extends RuntimeException {
+import java.lang.Exception;
 
+public class ImageCreationException extends Exception {
+	
 	private int errorCode;
 	private String errorMsg;
 	
-	public NullHostedFilePathException(int errorCode, String errorMsg) {
+	public ImageCreationException(int errorCode, String errorMsg) {
 		this.errorCode = errorCode;
 		this.errorMsg = errorMsg;
 	}

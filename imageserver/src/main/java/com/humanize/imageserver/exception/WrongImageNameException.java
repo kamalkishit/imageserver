@@ -1,11 +1,11 @@
 package com.humanize.imageserver.exception;
 
-public class WrongHostedFileNameException extends RuntimeException {
+public class WrongImageNameException extends RuntimeException {
 
 	private int errorCode;
 	private String errorMsg;
 	
-	public WrongHostedFileNameException(int errorCode, String errorMsg) {
+	public WrongImageNameException(int errorCode, String errorMsg) {
 		this.errorCode = errorCode;
 		this.errorMsg = errorMsg;
 	}
