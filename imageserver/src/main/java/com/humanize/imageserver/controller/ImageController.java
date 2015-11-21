@@ -2,6 +2,7 @@ package com.humanize.imageserver.controller;
 
 import java.io.InputStream;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
@@ -25,7 +26,7 @@ public class ImageController {
 	
 	@RequestMapping(value = "/images", method = RequestMethod.GET, 
 			headers="Accept=image/jpeg, image/jpg, image/png", produces = "image/jpeg")
-	public ResponseEntity<InputStreamResource> getImage(@RequestParam("imageName") String imageName, @RequestParam("imagePath") String imagePath) 
+	public ResponseEntity<InputStreamResource> getImage(@RequestParam("imageName") @NotEmpty String imageName, @RequestParam("imagePath") @NotEmpty String imagePath) 
 		throws ImageNotFoundException {
 		InputStream inputStream = imageService.getImage(imageName, imagePath);
 		

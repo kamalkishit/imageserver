@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.humanize.imageserver.data.Image;
-import com.humanize.imageserver.exception.ImageCreationException;
+import com.humanize.imageserver.exception.ImageDownloadException;
 
 
 @Service
@@ -30,7 +30,7 @@ public class ImageDownloaderService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	public boolean downloadImage(Image image) throws ImageCreationException {
+	public boolean downloadImage(Image image) throws ImageDownloadException {
 		try {
 			createConnection(image.getOriginalURL());
 			String tempImageFilename = getTempImageFilename(image);
@@ -39,7 +39,7 @@ public class ImageDownloaderService {
 			BufferedImage bufferedImage = processImage(tempImageFilename);
 			saveImage(bufferedImage, getExtension(imageFilename), imageFilename);
 		} catch (Exception exception) {
-			throw new ImageCreationException(0, null);
+			throw new ImageDownloadException(0, null);
 		}
 		
 		return true;
@@ -62,7 +62,10 @@ public class ImageDownloaderService {
 	
 	private String getImageFilename(Image image) {
 		return new String("/root/images/" + image.getImagePath() + image.getImageName());
-
+	}
+	
+	private String getExtension(String imageFilename) {
+		return new String(imageFilename.substring(imageFilename.lastIndexOf('.') + 1));
 	}
 	
 	private void readImage(String tempImageFilename) throws Exception {
@@ -109,12 +112,6 @@ public class ImageDownloaderService {
 		} 
 		
 		return outputImage;
-	}
-	
-	private String getExtension(String imageFilename) {
-		String extension = imageFilename.substring(imageFilename.lastIndexOf('.') + 1);
-		
-		return extension;
 	}
 	
 	private void saveImage(BufferedImage bufferedImage, String extension, String imageFilename) 

@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 
+import com.humanize.imageserver.ExceptionConfig;
 import com.humanize.imageserver.data.Image;
+import com.humanize.imageserver.exception.AmazonS3ImageNotFoundException;
 import com.humanize.imageserver.exception.ImageCreationException;
 import com.humanize.imageserver.exception.ImageNotFoundException;
 
@@ -24,21 +26,30 @@ public class ImageService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	public InputStream getImage(String imageName, String imagePath) 
-			throws ImageNotFoundException {
+	public InputStream getImage(String imageName, String imagePath) throws ImageNotFoundException {
 		try {
-			FileSystemResource imageResource = new FileSystemResource(imagePath + imageName);
+			FileSystemResource imageResource = new FileSystemResource("/root/images/" + imagePath + imageName);
 			return imageResource.getInputStream();
 		} catch (IOException exception) {
 			logger.error("", exception);
-			return amazonS3Service.getImage(imageName);
+			
+			try {
+				return amazonS3Service.getImage(imageName);
+			} catch (Exception e) {
+				logger.error("", e);
+				throw new ImageNotFoundException(ExceptionConfig.IMAGE_NOT_FOUND_ERROR_CODE, ExceptionConfig.IMAGE_NOT_FOUND_EXCEPTION);
+			}
 		}
 	}
 	
 	public void putImage(Image image) throws ImageCreationException {
-		imageDownloaderService.downloadImage(image);
-		amazonS3Service.putImage(image);
-		//downloadImage(image);
+		try {
+			imageDownloaderService.downloadImage(image);
+			amazonS3Service.putImage(image);
+		} catch (Exception exception) {
+			logger.error("", exception);
+			throw new ImageCreationException(ExceptionConfig.IMAGE_CREATION_ERROR_CODE, ExceptionConfig.IMAGE_CREATION_EXCEPTION);
+		}
 	}
 	
 	/*
