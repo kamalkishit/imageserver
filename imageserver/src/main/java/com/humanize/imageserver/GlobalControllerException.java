@@ -6,10 +6,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.humanize.imageserver.exception.ImageNotFoundException;
-import com.humanize.imageserver.exception.NullHostedFileNameException;
-import com.humanize.imageserver.exception.NullImagePathException;
 import com.humanize.imageserver.exception.Exception;
+import com.humanize.imageserver.exception.ImageCreationException;
+import com.humanize.imageserver.exception.ImageNotFoundException;
 
 @ControllerAdvice
 class GlobalControllerException {
@@ -17,22 +16,14 @@ class GlobalControllerException {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(ImageNotFoundException.class)
     @ResponseBody
-    public Exception handleImageNotFoundException(ImageNotFoundException e) {
-    	return new Exception(e.getErrorCode(), e.getErrorMsg());
-        
+    public Exception handleImageNotFoundException(ImageNotFoundException exception) {
+    	return new Exception(exception.getErrorCode(), exception.getErrorMsg());
     }
     
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(NullHostedFileNameException.class)
-    public void handleNullHostedFileNameException() {
-        // Nothing to do
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(ImageCreationException.class)
+    @ResponseBody
+    public Exception handleImageNotFoundException(ImageCreationException exception) {
+    	return new Exception(exception.getErrorCode(), exception.getErrorMsg());
     }
-    
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(NullImagePathException.class)
-    public void handleNullHostedFilePathException() {
-        // Nothing to do
-    }
-    
-    
 }

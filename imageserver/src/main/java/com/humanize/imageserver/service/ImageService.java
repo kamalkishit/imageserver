@@ -1,25 +1,14 @@
 package com.humanize.imageserver.service;
 
-import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLConnection;
 
-import javax.imageio.ImageIO;
-
-import org.imgscalr.Scalr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 
-import com.humanize.imageserver.ExceptionConfig;
 import com.humanize.imageserver.data.Image;
 import com.humanize.imageserver.exception.ImageCreationException;
 import com.humanize.imageserver.exception.ImageNotFoundException;
@@ -27,8 +16,11 @@ import com.humanize.imageserver.exception.ImageNotFoundException;
 @Service
 public class ImageService {
 	
-	private URL url;
-	private URLConnection urlConnection;
+	@Autowired
+	ImageDownloaderService imageDownloaderService;
+	
+	@Autowired
+	AmazonS3Service amazonS3Service;
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -38,14 +30,18 @@ public class ImageService {
 			FileSystemResource imageResource = new FileSystemResource(imagePath + imageName);
 			return imageResource.getInputStream();
 		} catch (IOException exception) {
-			throw new ImageNotFoundException(ExceptionConfig.IMAGE_NOT_FOUND_ERROR_CODE, ExceptionConfig.IMAGE_NOT_FOUND_EXCEPTION);
+			logger.error("", exception);
+			return amazonS3Service.getImage(imageName);
 		}
 	}
 	
-	public void putImage(Image hostedFile) throws ImageCreationException {
-		downloadImage(hostedFile);
+	public void putImage(Image image) throws ImageCreationException {
+		imageDownloaderService.downloadImage(image);
+		amazonS3Service.putImage(image);
+		//downloadImage(image);
 	}
 	
+	/*
 	private boolean downloadImage(Image image) throws ImageCreationException{
 		try {
 			createConnection(image.getOriginalURL());
@@ -116,5 +112,5 @@ public class ImageService {
 			logger.error("", exception);
 			throw exception;
 		}
-	}
+	} */
 }

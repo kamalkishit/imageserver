@@ -27,7 +27,6 @@ public class ImageController {
 			headers="Accept=image/jpeg, image/jpg, image/png", produces = "image/jpeg")
 	public ResponseEntity<InputStreamResource> getImage(@RequestParam("imageName") String imageName, @RequestParam("imagePath") String imagePath) 
 		throws ImageNotFoundException {
-		
 		InputStream inputStream = imageService.getImage(imageName, imagePath);
 		
 	    return ResponseEntity.ok().contentType(MediaType.parseMediaType("image/jpeg"))
@@ -35,7 +34,7 @@ public class ImageController {
 	}
 	
 	@RequestMapping(value = "/images", method = RequestMethod.POST)
-	public void putImage(@RequestBody Image hostedFile) throws ImageCreationException {
-		imageService.putImage(hostedFile);
+	public void putImage(@RequestBody Image image) throws ImageCreationException {
+		imageService.putImage(image);
 	}
 }
